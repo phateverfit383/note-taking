@@ -1,33 +1,20 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
+    "module": "commonjs",
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
-    "resolveJsonModule": true,
-    "target": "es2015",
-    "module": "esnext",
-    "lib": ["es2020", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "pretty": true,
+    "target": "es6",
+    "outDir": "./dist",
+    "baseUrl": "./src",
     "paths": {
-      "@affiliate/*": ["apps/affiliate/src/*"],
-      "@auth/*": ["apps/auth/src/*"],
-      "@constants/*": ["libs/constants/src/*"],
-      "@core/*": ["libs/core/src/*"],
-      "@libs/modules/*": ["libs/modules/src/*"],
-      "@utils/*": ["libs/utils/src/*"],
-      "@mp/*": ["apps/marketplace/src/*"],
-      "@mp-billing/*": ["apps/marketplace-billing/src/*"],
-      "@cms/*": ["apps/marketplace-cms/src/*"],
-      "@grpc/*": ["libs/modules/src/grpc/*"],
-      "@search/*": ["apps/search/src/*"]
-    }
+      "@modules/*": ["modules/*"],
+      "@helpers/*": ["helpers/*"]
+    },
+    "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "tmp"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "src/migration"]
 }
