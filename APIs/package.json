@@ -1,0 +1,31 @@
+{
+  "name": "note-taking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "nest build",
+    "start": "node dist/server.js"
+  },
+  "author": "Fabio",
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/common": "^11.0.11",
+    "@nestjs/core": "^11.0.11",
+    "@nestjs/mongoose": "^11.0.1",
+    "@nestjs/swagger": "^11.0.6",
+    "class-validator": "^0.13.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.1",
+    "nanoid": "^5.1.4",
+    "nestjs-request-context": "^4.0.0",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  }
+}
