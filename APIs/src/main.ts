@@ -1,9 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
-  console.log(process.env.MONGO_CONNECTION_STRING);
   const app = await NestFactory.create(AppModule);
-  await app.listen(3344);
+
+  // add swagger
+  const options = new DocumentBuilder().addBearerAuth(undefined, 'x-access-token').build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('docs', app, document);
+  await app.listen(process.env.PORT || 3040);
+  console.log(`Server is running on: http://localhost:${process.env.PORT || 3040}`);
 }
 bootstrap();
