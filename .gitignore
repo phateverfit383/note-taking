@@ -7,7 +7,6 @@ dist
 # dependencies
 node_modules
 _templates
-.next
 
 # env
 .env
