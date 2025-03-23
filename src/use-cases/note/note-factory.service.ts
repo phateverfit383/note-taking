@@ -8,7 +8,6 @@ export class NoteFactoryService {
     newNote.title = createNoteDto.title;
     newNote.content = createNoteDto.content;
     newNote.slug = createNoteDto.title.toLowerCase().trim().replace(/ /g, '-');
-    newNote.created_by = 'system';
     return newNote;
   }
 

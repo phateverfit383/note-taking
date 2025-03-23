@@ -8,10 +8,11 @@ import { Note } from 'src/frameworks/data-services/mongo/model';
 export class NoteUseCases {
   constructor(private dataServices: IDataServices, private noteFactoryService: NoteFactoryService) {}
 
-  getAllNotes(query: GetAllNotesDto): Promise<Note[]> {
+  getAllNotes(user: any, query: GetAllNotesDto): Promise<Note[]> {
     const { page, limit, q, sort } = query;
 
     const conditions = {
+      created_by: user.id,
       title: { $regex: q, $options: 'i' },
       content: { $regex: q, $options: 'i' },
     };
@@ -19,18 +20,31 @@ export class NoteUseCases {
     return this.dataServices.notes.getAll(conditions);
   }
 
-  getNoteById(id: any): Promise<Note> {
-    return this.dataServices.notes.get(id);
+  async getNoteById(user: any, id: any): Promise<Note> {
+    const note = await this.dataServices.notes.get(id);
+    if (note.created_by !== user.id) {
+      throw new ForbiddenException();
+    }
+    return note;
   }
 
-  createNote(createNoteDto: CreateNoteDto): Promise<Note> {
+  createNote(userId: string, createNoteDto: CreateNoteDto): Promise<Note> {
     const note = this.noteFactoryService.createNewNote(createNoteDto);
+    note.created_by = userId;
     return this.dataServices.notes.create(note);
   }
 
-  updateNote(noteId: string, updateNoteDto: UpdateNoteDto) {
-    const note = this.noteFactoryService.updateNote(updateNoteDto);
-    this.dataServices.notes.update(noteId, note);
+  async updateNote(userId: string, noteId: string, updateNoteDto: UpdateNoteDto) {
+    // find note
+    const note = await this.dataServices.notes.get(noteId);
+    if (!note) {
+      throw new NotFoundException('Note not found');
+    }
+    if (note.created_by !== userId) {
+      throw new ForbiddenException();
+    }
+    const updatedNote = this.noteFactoryService.updateNote(updateNoteDto);
+    this.dataServices.notes.update(noteId, updatedNote);
   }
 
   async deleteNote(userId: string, noteId: string) {

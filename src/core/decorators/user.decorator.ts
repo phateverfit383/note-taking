@@ -3,7 +3,7 @@ import { validate, IsDefined, IsMongoId, IsString, IsOptional } from 'class-vali
 import { Types } from 'mongoose';
 
 export interface IUser {
-  readonly _id: Types.ObjectId;
+  readonly id: Types.ObjectId;
   readonly email: string;
   readonly first_name?: string;
   readonly last_name?: string;
@@ -12,7 +12,7 @@ export interface IUser {
 class User {
   @IsDefined()
   @IsMongoId()
-  _id: string;
+  id: string;
 
   @IsOptional()
   @IsString()
@@ -34,7 +34,9 @@ export const CurrentUser = createParamDecorator(async (_: any, ctx: ExecutionCon
 
   const errors = await validate(user);
   if (errors.length > 0) {
-    throw new UnauthorizedException('Please log in again to implement new and improved security measures.');
+    throw new UnauthorizedException(
+      '[CurrentUser] Please log in again to implement new and improved security measures.',
+    );
   }
 
   return request.user;
