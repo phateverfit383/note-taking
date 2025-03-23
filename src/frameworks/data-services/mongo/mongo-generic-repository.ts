@@ -1,5 +1,6 @@
-import { Model } from 'mongoose';
+import { FilterQuery, Model, Types } from 'mongoose';
 import { IGenericRepository } from '../../../core';
+import { getMongoId } from 'src/core/helper/string';
 
 export class MongoGenericRepository<T> implements IGenericRepository<T> {
   private _repository: Model<T>;
@@ -10,8 +11,8 @@ export class MongoGenericRepository<T> implements IGenericRepository<T> {
     this._populateOnFind = populateOnFind;
   }
 
-  getAll(): Promise<T[]> {
-    return this._repository.find().populate(this._populateOnFind).exec();
+  getAll(conditions: FilterQuery<T>): Promise<T[]> {
+    return this._repository.find(conditions).populate(this._populateOnFind).exec();
   }
 
   get(id: any): Promise<T> {
@@ -22,7 +23,8 @@ export class MongoGenericRepository<T> implements IGenericRepository<T> {
     return this._repository.create(item);
   }
 
-  update(id: string, item: T) {
-    return this._repository.findByIdAndUpdate(id, item);
+  async update(id: string, item: T) {
+    const _id = getMongoId(id);
+    return await this._repository.findByIdAndUpdate(_id, item);
   }
 }

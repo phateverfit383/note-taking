@@ -1,15 +1,15 @@
-import { Controller, Get, Param, Post, Body, Put } from '@nestjs/common';
-import { CreateNoteDto, UpdateNoteDto } from '../core/dtos';
+import { Controller, Get, Param, Post, Body, Put, Query } from '@nestjs/common';
+import { CreateNoteDto, GetAllNotesDto, UpdateNoteDto } from '../core/dtos';
 import { NoteUseCases } from '../use-cases/note/note.use-case';
 import { NoteFactoryService } from '../use-cases/note/note-factory.service';
 
-@Controller('api/note')
+@Controller('api/notes')
 export class NoteController {
   constructor(private noteUseCases: NoteUseCases, private noteFactoryService: NoteFactoryService) {}
 
   @Get()
-  async getAll() {
-    return this.noteUseCases.getAllNotes();
+  async getAll(@Query() query: GetAllNotesDto) {
+    return this.noteUseCases.getAllNotes(query);
   }
 
   @Get(':id')
@@ -19,19 +19,11 @@ export class NoteController {
 
   @Post()
   async createNote(@Body() noteDto: CreateNoteDto) {
-    // const createNoteResponse = new CreateNoteResponseDto();
-    try {
-      const note = this.noteFactoryService.createNewNote(noteDto);
-      const createdNote = await this.noteUseCases.createNote(note);
+    const note = this.noteFactoryService.createNewNote(noteDto);
 
-      // createNoteResponse.success = true;
-      // createNoteResponse.createdNote = createdNote;
-    } catch (error) {
-      // report and log error
-      // createNoteResponse.success = false;
-    }
+    const createdNote = await this.noteUseCases.createNote(note);
 
-    // return createNoteResponse;
+    return createdNote;
   }
 
   @Put(':id')

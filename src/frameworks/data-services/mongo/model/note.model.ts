@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
-export type NoteDocument = Note & Document;
+export type NoteDocument = HydratedDocument<Note>;
 
 @Schema({ collection: 'notes', timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } })
 export class Note {
