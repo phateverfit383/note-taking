@@ -10,3 +10,13 @@ export const generateAccessToken = (user: any): string => {
 
   return token;
 };
+
+export const verifyToken = (token: string): any => {
+  try {
+    const data = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, message: 'Invalid token' };
+  }
+};
