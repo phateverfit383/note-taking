@@ -4,10 +4,10 @@ import { DataServicesModule } from './services/data-services/data-services.modul
 import { AccountUseCasesModule } from './use-cases/account/account-use-cases.module';
 import { NoteUseCasesModule } from './use-cases/note/note-use-cases.module';
 import { AuthMiddleware } from './core/midleware';
-
+import { NotePublicController } from './controllers/note-public.controller';
 @Module({
   imports: [DataServicesModule, AccountUseCasesModule, NoteUseCasesModule],
-  controllers: [AppController, AccountController, NoteController],
+  controllers: [AppController, AccountController, NoteController, NotePublicController],
   providers: [],
 })
 export class AppModule {

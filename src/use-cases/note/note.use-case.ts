@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { IDataServices } from '../../core/abstracts';
-import { CreateNoteDto, GetAllNotesDto, UpdateNoteDto } from '../../core/dtos';
+import { CreateNoteDto, GetAllNotesDto, GetNotePublicDto, UpdateNoteDto } from '../../core/dtos';
 import { NoteFactoryService } from './note-factory.service';
 import { Note } from 'src/frameworks/data-services/mongo/model';
 
@@ -18,6 +18,15 @@ export class NoteUseCases {
     };
 
     return this.dataServices.notes.getAll(conditions);
+  }
+  getNotesBySlug(query: GetNotePublicDto): Promise<Note> {
+    const { slug } = query;
+
+    const conditions = {
+      slug: slug,
+    };
+
+    return this.dataServices.notes.findOne(conditions);
   }
 
   async getNoteById(user: any, id: any): Promise<Note> {

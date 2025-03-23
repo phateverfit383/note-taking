@@ -58,3 +58,11 @@ export class GetAllNotesDto {
   })
   sort: string;
 }
+
+export class GetNotePublicDto {
+  @ApiProperty({
+    description: 'The slug of the note',
+    example: 'my-first-note',
+  })
+  slug: string;
+}
