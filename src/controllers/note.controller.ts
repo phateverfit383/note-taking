@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Put, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Query, Delete } from '@nestjs/common';
 import { CreateNoteDto, GetAllNotesDto, UpdateNoteDto } from '../core/dtos';
 import { NoteUseCases } from '../use-cases/note/note.use-case';
 import { NoteFactoryService } from '../use-cases/note/note-factory.service';
@@ -30,5 +30,10 @@ export class NoteController {
   updateNote(@Param('id') noteId: string, @Body() updateNoteDto: UpdateNoteDto) {
     const note = this.noteFactoryService.updateNote(updateNoteDto);
     return this.noteUseCases.updateNote(noteId, note);
+  }
+
+  @Delete(':id')
+  deleteNote(@Param('id') noteId: string) {
+    return this.noteUseCases.deleteNote('system', noteId);
   }
 }

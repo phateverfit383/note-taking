@@ -27,4 +27,9 @@ export class MongoGenericRepository<T> implements IGenericRepository<T> {
     const _id = getMongoId(id);
     return await this._repository.findByIdAndUpdate(_id, item);
   }
+
+  async delete(id: string): Promise<T> {
+    const _id = getMongoId(id);
+    return await this._repository.findByIdAndDelete(_id);
+  }
 }
