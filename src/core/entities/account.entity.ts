@@ -5,6 +5,8 @@ export class AccountEnity {
 
   google_id: string;
 
+  type: string;
+
   first_name: string;
 
   last_name: string;

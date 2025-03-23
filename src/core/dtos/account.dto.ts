@@ -24,3 +24,13 @@ export class CreateAccountDto {
 }
 
 export class UpdateAccountDto extends PartialType(CreateAccountDto) {}
+
+export class LoginDto {
+  @IsString()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}

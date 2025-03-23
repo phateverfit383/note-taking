@@ -1,28 +1,26 @@
-import { Controller, Get, Param, Post, Body, Put } from '@nestjs/common';
-import { CreateAccountDto, UpdateAccountDto } from '../core/dtos';
+import { Controller, Get, Param, Post, Body, Put, Query, BadRequestException } from '@nestjs/common';
+import { CreateAccountDto, LoginDto } from '../core/dtos';
 import { AccountUseCases } from '../use-cases/account/account.use-case';
 
 @Controller('api/account')
 export class AccountController {
   constructor(private accountUseCases: AccountUseCases) {}
 
-  @Get()
-  async getAll() {
-    return this.accountUseCases.getAllAccounts();
+  @Post('/signup')
+  async createAccount(@Body() accountDto: CreateAccountDto) {
+    const data = await this.accountUseCases.createEmailAccount(accountDto);
+    return {
+      success: true,
+      data,
+    };
   }
 
-  @Get(':id')
-  async getById(@Param('id') id: any) {
-    return this.accountUseCases.getAccountById(id);
-  }
-
-  @Post()
-  createAccount(@Body() accountDto: CreateAccountDto) {
-    return this.accountUseCases.createAccount(accountDto);
-  }
-
-  @Put(':id')
-  updateAccount(@Param('id') accountId: string, @Body() updateAccountDto: UpdateAccountDto) {
-    return this.accountUseCases.updateAccount(accountId, updateAccountDto);
+  @Post('/login')
+  async login(@Body() loginDto: LoginDto) {
+    const data = await this.accountUseCases.login(loginDto);
+    return {
+      success: true,
+      data,
+    };
   }
 }

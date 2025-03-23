@@ -14,6 +14,9 @@ export class Account {
   google_id: string;
 
   @Prop()
+  type: string;
+
+  @Prop()
   first_name: string;
 
   @Prop()
